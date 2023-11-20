@@ -9,6 +9,8 @@ const foodsStore = createSlice({
     foodsList: [],
     // 分类标签
     activeTabIndex: 0,
+    // 购物车列表
+    cartList: [],
   },
   reducers: {
     // 更改商品列表
@@ -19,10 +21,20 @@ const foodsStore = createSlice({
     changeActiveTab(state, action) {
       state.activeTabIndex = action.payload;
     },
+    // 添加购物车
+    addToCart(state, action) {
+      // 查找使用已经在购物车中
+      const item = state.cartList.find((item) => item.id === action.payload.id);
+      if (item) {
+        item.count++;
+      } else {
+        state.cartList.push(action.payload);
+      }
+    },
   },
 });
 
-const { setFoodsList, changeActiveTab } = foodsStore.actions;
+const { setFoodsList, changeActiveTab, addToCart } = foodsStore.actions;
 // 异步获取部分
 const fetchFoodsList = () => {
   return async (dispatch) => {
@@ -33,7 +45,7 @@ const fetchFoodsList = () => {
   };
 };
 
-export { fetchFoodsList, changeActiveTab };
+export { fetchFoodsList, changeActiveTab, addToCart };
 
 const foodsReducer = foodsStore.reducer;
 export default foodsReducer;
