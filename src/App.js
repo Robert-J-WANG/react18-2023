@@ -76,7 +76,7 @@ const App = () => {
 
   // 数据的渲染
   // 1. useSelector钩子
-  const { foodsList } = useSelector((state) => state.foods);
+  const { foodsList, activeTabIndex } = useSelector((state) => state.foods);
 
   return (
     <div className="home">
@@ -91,15 +91,18 @@ const App = () => {
           <div className="list-content">
             <div className="goods-list">
               {/* 外卖商品列表 */}
-              {foodsList.map((item) => {
+              {foodsList.map((item, index) => {
                 return (
-                  <FoodsCategory
-                    key={item.tag}
-                    // 列表标题
-                    name={item.name}
-                    // 列表商品
-                    foods={item.foods}
-                  />
+                  // 点击menu显示对应的内容
+                  index === activeTabIndex && (
+                    <FoodsCategory
+                      key={item.tag}
+                      // 列表标题
+                      name={item.name}
+                      // 列表商品
+                      foods={item.foods}
+                    />
+                  )
                 );
               })}
             </div>

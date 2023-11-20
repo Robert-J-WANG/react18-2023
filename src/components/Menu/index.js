@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import "./index.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import { changeActiveTab } from "../../store/modules/takeaway";
 
 const Menu = () => {
@@ -62,9 +61,10 @@ const Menu = () => {
   //     ],
   //   },
   // ];
-  const { foodsList } = useSelector((state) => state.foodsList);
+
+  const { foodsList, activeTabIndex } = useSelector((state) => state.foods);
   const menus = foodsList.map((item) => ({ tag: item.tag, name: item.name }));
-  // 触发action的执行
+
   const dispatch = useDispatch();
 
   return (
@@ -74,8 +74,10 @@ const Menu = () => {
         return (
           <div
             key={item.tag}
-            className={classNames("list-menu-item", "active")}
-            onClick={dispatch(changeActiveTab(index))}
+            className={classNames("list-menu-item", {
+              active: activeTabIndex === index,
+            })}
+            onClick={() => dispatch(changeActiveTab(index))}
           >
             {item.name}
           </div>
