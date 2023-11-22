@@ -23,7 +23,7 @@ const foodsStore = createSlice({
     },
     // 添加购物车
     addToCart(state, action) {
-      // 查找使用已经在购物车中
+      // 是否添加过？？？
       const item = state.cartList.find((item) => item.id === action.payload.id);
       if (item) {
         item.count++;
