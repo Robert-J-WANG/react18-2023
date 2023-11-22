@@ -31,10 +31,34 @@ const foodsStore = createSlice({
         state.cartList.push(action.payload);
       }
     },
+
+    // 增加数量
+    increaseCount(state, action) {
+      const item = state.cartList.find((item) => item.id === action.payload.id);
+      item.count++;
+    },
+    // 减少数量
+    decreaseCount(state, action) {
+      const item = state.cartList.find((item) => item.id === action.payload.id);
+      if (item.count === 0) return;
+
+      item.count--;
+    },
+    // 清空购物车
+    clearCart(state) {
+      state.cartList = [];
+    },
   },
 });
 
-const { setFoodsList, changeActiveTab, addToCart } = foodsStore.actions;
+const {
+  setFoodsList,
+  changeActiveTab,
+  addToCart,
+  increaseCount,
+  decreaseCount,
+  clearCart,
+} = foodsStore.actions;
 // 异步获取部分
 const fetchFoodsList = () => {
   return async (dispatch) => {
@@ -45,7 +69,14 @@ const fetchFoodsList = () => {
   };
 };
 
-export { fetchFoodsList, changeActiveTab, addToCart };
+export {
+  fetchFoodsList,
+  changeActiveTab,
+  addToCart,
+  increaseCount,
+  decreaseCount,
+  clearCart,
+};
 
 const foodsReducer = foodsStore.reducer;
 export default foodsReducer;
