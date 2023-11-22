@@ -40,9 +40,14 @@ const foodsStore = createSlice({
     // 减少数量
     decreaseCount(state, action) {
       const item = state.cartList.find((item) => item.id === action.payload.id);
-      if (item.count === 0) return;
-
-      item.count--;
+      if (item.count > 0) {
+        item.count--;
+      } else {
+        // state.cartList = state.cartList.filter(
+        //   (item) => item.id !== action.payload.id
+        // );
+        return;
+      }
     },
     // 清空购物车
     clearCart(state) {

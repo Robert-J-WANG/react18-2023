@@ -7,17 +7,29 @@ import {
   increaseCount,
   clearCart,
 } from "../../store/modules/takeaway";
+import { useState } from "react";
 
 const Cart = () => {
   const { cartList } = useSelector((state) => state.foods);
   const totalPrice = cartList.reduce((a, c) => a + c.price * c.count, 0);
   // const cart = [];
   const dispatch = useDispatch();
+  // 用来控制购物车以及蒙层的显示和隐藏
+  const [visible, setVisible] = useState(false);
+  // 打开购物车和蒙层的回调
+  const onShow = () => {
+    if (cartList.length > 0) {
+      setVisible(true);
+    }
+  };
   return (
     <div className="cartContainer">
       {/* 遮罩层 添加visible类名可以显示出来 */}
-      <div className={classNames("cartOverlay")} />
-      <div className="cart">
+      <div
+        className={classNames("cartOverlay", visible && "visible")}
+        onClick={() => setVisible(false)}
+      />
+      <div className="cart" onClick={() => onShow()}>
         {/* fill 添加fill类名可以切换购物车状态*/}
         {/* 购物车数量 */}
         <div className={classNames("icon", cartList.length > 0 && "fill")}>
@@ -43,9 +55,7 @@ const Cart = () => {
         )}
       </div>
       {/* 添加visible类名 div会显示出来 */}
-      <div
-        className={classNames("cartPanel", cartList.length > 0 && "visible")}
-      >
+      <div className={classNames("cartPanel", visible && "visible")}>
         <div className="header">
           <span className="text">购物车</span>
           <span className="clearCart" onClick={() => dispatch(clearCart())}>
